@@ -3,6 +3,7 @@
 confdir="${XDG_CONFIG_HOME:=$HOME/.config}/discocss"
 preloadFile="$confdir/preload.js"
 cssFile="$confdir/custom.css"
+colorsFile="$HOME/.cache/wal/colors.css"
 
 mkdir -p "$confdir"
 
@@ -13,9 +14,12 @@ cat <<EOF > "$preloadFile"
   const fs = require("fs");
   const confDir = "$confdir";
   const cssFile = "$cssFile";
+  const colorsFile = "$colorsFile";
 
   function reload(style) {
-    style.innerHTML = fs.readFileSync(cssFile);
+  	var cssContent = fs.readFileSync(cssFile, "utf8");
+  	var colorsContent = fs.readFileSync(colorsFile, "utf8");
+	style.textContent = cssContent.concat(colorsContent);
   }
 
   function inject({ document, window }) {
